@@ -117,7 +117,7 @@ SanitizeMfisData <- function(fSOM, seed=1) {
 # ==================
 
 # some vars
-fcsDirPath <- "/home/alexandre/Code/dev/fswrapper/example"
+fcsDirPath <- "/full/path/to/fcs/dir/"
 phmDirName <- "phm"
 referenceFcsFileName <- "example1.fcs"
 marker_cols <- (7:19)
