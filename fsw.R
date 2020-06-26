@@ -20,7 +20,7 @@ DfToPdf <- function(df, filename, dirPath, title=NULL) {
   }
   
   # generate PDF
-  pdf(sprintf("%s/%s.pdf", dirPath, filename), height=11, width=10)
+  pdf(sprintf("%s/%s.pdf", dirPath, filename, title=title), height=11, width=10)
   grid.table(df)
   dev.off()
 }
