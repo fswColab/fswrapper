@@ -3,7 +3,7 @@
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # fsw params
-fcsDirPath <- "/path/to/fcs/directory"
+fcsDirPath <- "/path/to/fcs/directory" # need trailing slash handling
 referenceFcsFileName <- "example.fcs"
 
 phmDirName <- "phm" # generated inside fsc directory
