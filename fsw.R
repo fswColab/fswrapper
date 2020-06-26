@@ -1,18 +1,40 @@
 library(flowCore)
 library(tools)
 library(FlowSOM)
-library(ggplot2)
+library(gridExtra)
 library(pheatmap)
 
-GenPheatmap <- function(fSOM, fcsFileName, pheatmapDirPath) {
+
+DfToPdf <- function(df, filename, dirPath, title=NULL) {
+  #' Create pdf based on given dataframe
+  #' 
+  #' @param df dataframe to use
+  #' @param filename filename of pdf
+  #' @param dirPath path of pdf directory
+  #' @param title pdf title. Default to "NULL". If not specified, filename wil be used.
+  #' 
+  
+  # set title with filename if NULL
+  if (is.null(title)) {
+    title <- filename
+  }
+  
+  # generate PDF
+  pdf(sprintf("%s/%s.pdf", dirPath, filename), height=11, width=10)
+  grid.table(df)
+  dev.off()
+}
+
+
+GenPheatmap <- function(fSOM, fcsFilename, pheatmapDirPath) {
   #' Use pheatmap to generate and store heat of fcs files
   #' 
   #' @param fSOM FlowSOM object.
-  #' @param fcsFileName .fcs file name used to generate pheatmap
+  #' @param fcsFilename .fcs file name used to generate pheatmap
   #' @param phmPath pheatmap files directory fullpath
   
-  fileName = tools::file_path_sans_ext(fcsFileName)
-  pheatmap(SanitizeMfisData(fSOM), scale = "none", fontsize=5, file=sprintf("%s/%s.pdf", phmDirPath, fileName), bg="transparent", useDingbats=FALSE, cluster_rows = FALSE,
+  fname = tools::file_path_sans_ext(fcsFilename)
+  pheatmap(SanitizeMfisData(fSOM), scale = "none", fontsize=5, file=sprintf("%s/%s.pdf", phmDirPath, fname), bg="transparent", useDingbats=FALSE, cluster_rows = FALSE,
            cluster_cols = FALSE)
 }
 
@@ -116,18 +138,17 @@ SanitizeMfisData <- function(fSOM, seed=1) {
 # Begining of script
 # ==================
 
-# some vars
-fcsDirPath <- "/home/alexandre/Code/dev/testDir/"
-phmDirName <- "phm"
-referenceFcsFileName <- "example1.fcs"
-marker_cols <- (7:19)
-nClus <- 21
+# import params
+source('param.R')
+
 
 # computed var
 phmDirPath <- sprintf("%s/%s", fcsDirPath, phmDirName)
+extraDirPath <- sprintf("%s/%s", fcsDirPath, extraDirName)
 
-# create phm directory
+# create phm and extra directories
 dir.create(phmDirPath, showWarnings = FALSE)
+dir.create(extraDirPath, showWarnings = FALSE)
 
 # get list of all fcs filenames
 fcsList <- GetFcsFilenames(fcsDirPath)
@@ -173,6 +194,11 @@ for(f in 1:length(fcsList)){
  
 }
 
+# clean and export some dataframes
 colnames(metaClusterDF) <- orderedSampleList
+DfToPdf(metaClusterDF, 'metaClusterDF', extraDirPath)
+
 colnames(outliersPercentReport) <- orderedSampleList
+DfToPdf(outliersPercentReport, 'outilersReport', extraDirPath)
+
 
