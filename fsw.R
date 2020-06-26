@@ -139,7 +139,7 @@ SanitizeMfisData <- function(fSOM, seed=1) {
 # ==================
 
 # import params
-source('param.R')
+source('params.R')
 
 
 # computed var
