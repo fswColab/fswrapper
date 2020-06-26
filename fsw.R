@@ -117,7 +117,7 @@ SanitizeMfisData <- function(fSOM, seed=1) {
 # ==================
 
 # some vars
-fcsDirPath <- "/full/path/to/fcs/dir/"
+fcsDirPath <- "/home/alexandre/Code/dev/testDir/"
 phmDirName <- "phm"
 referenceFcsFileName <- "example1.fcs"
 marker_cols <- (7:19)
@@ -125,6 +125,9 @@ nClus <- 21
 
 # computed var
 phmDirPath <- sprintf("%s/%s", fcsDirPath, phmDirName)
+
+# create phm directory
+dir.create(phmDirPath, showWarnings = FALSE)
 
 # get list of all fcs filenames
 fcsList <- GetFcsFilenames(fcsDirPath)
